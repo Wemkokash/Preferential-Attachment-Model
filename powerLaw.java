@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.LinkedList<E>;
+import java.util.Random;
 
 public class powerLaw {
 
@@ -28,7 +29,6 @@ public class powerLaw {
 		//in the connection map, for the node x link to 
 		//linked list with argument y in it 
 
-//not sure about this
 		connectionMap.put(0, new LinkedList<Integer>(1));
 		connectionMap.put(1, new LinkedList<Integer>(0));
 
@@ -36,20 +36,75 @@ public class powerLaw {
 
 		//variable to keep track of what # node to add to model
 		//(since we already added some, the numStartingNodes)
-		int newNodeNum = numStartingNodes;
+		int nodeNum = 2;
 
 		//IMPORTANT FOR LOOP here
 		//This is where we do the big boy work.
 		for(i = 0; i < numIterations; i++) {
 
+			//new hashTable to store probability values
+			new HashMap probVals = HashMap();
+
 			//for each old node, calculate probability that the new node connects to it
 				//for loop for calculating probabilities
+			for(int i = 0; i < nodeNum - 1; i++){
 
-			//random int for number of sum of numerators of probabilites
+				//calculate probVal for node i
+				curProb = edgeNumMap.get(i) + 1;
 
-			//add edges using newNodeNum and node calculated above
+				probVals.put(i, curProb);
+			}
 
-			//iterate newNodeNum
+			//add all probVals values
+			probValsTotal = 0
+
+			for(int i = 0; probVals.size(); i++){
+				probValsTotal += probVals.get(i);
+			} 
+
+			//random int for range probValsTotal
+			Random rand = new Random();
+
+			int randNum = rand.nextInt(probValsTotal);
+
+			//start at -1 becasue
+			int curTotal = -1;
+
+			int curNode = 0;
+
+
+			while(false){
+
+				curTotal += probVals.get(curNode)
+
+				if(curTotal > randNum){
+					//if the curNode is selected to link to nodeNum, 
+					//put new values in both HashMaps
+
+					//for nodeNum
+					connectionMap.put(nodeNum, new LinkedList<Integer>(curNode));
+
+					//for curNode
+					connectionMap.get(curNode).add(nodeNum);
+
+					//replace number at curNode, becuase it now links to one more node
+					edgeNumReplace = edgeNumMap.get(curNode) + 1;
+					edgeNumMap.replace(curNode, edgeNumReplace);
+
+					//new key value pair in edgeNumMap for nodeNum
+					edgeNumMap.put(nodeNum, 1);
+
+					break;
+				}
+
+				//iterate node
+				curNode += 1;
+			}
+
+
+			//add edge between nodeNum and node calculated above
+
+			//iterate nodeNum
 
 		}
 
