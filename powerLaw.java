@@ -1,18 +1,18 @@
 import java.util.HashMap;
-import java.util.LinkedList<E>;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class powerLaw {
 
 	public static void PAmodel(int numIterations) {
-
-		int totalEdges = 1;
-		int totalNodes = 2;
+		//these were unused
+		//int totalEdges = 1;
+		//int totalNodes = 2;
 
 		//two Hash Maps, one that keeps track of which nodes link to each other, 
 		//one that keeps track of how many connections each node has
-		new HashMap edgeNumMap = HashMap();
-		new HashMap connectionMap = HashMap();
+		HashMap<Integer, Integer> edgeNumMap = new HashMap<Integer, Integer>();
+		HashMap<Integer, LinkedList<Integer>> connectionMap = new HashMap<Integer, LinkedList<Integer>>();
 
 /*
 //is this necessary?
@@ -29,8 +29,10 @@ public class powerLaw {
 		//in the connection map, for the node x link to 
 		//linked list with argument y in it 
 
-		connectionMap.put(0, new LinkedList<Integer>(1));
-		connectionMap.put(1, new LinkedList<Integer>(0));
+		connectionMap.put(0, new LinkedList<Integer>());
+		connectionMap.put(1, new LinkedList<Integer>());
+		connectionMap.get(0).add(1);
+		connectionMap.get(1).add(0);
 
 
 
@@ -40,26 +42,27 @@ public class powerLaw {
 
 		//IMPORTANT FOR LOOP here
 		//This is where we do the big boy work.
-		for(i = 0; i < numIterations; i++) {
+		for(int i = 0; i < numIterations; i++) {
 
 			//new hashTable to store probability values
-			new HashMap probVals = HashMap();
+			//Possible glitch point. making probvals over probvals?
+			HashMap<Integer, Integer> probVals = new HashMap<Integer, Integer>();
 
 			//for each old node, calculate probability that the new node connects to it
 				//for loop for calculating probabilities
-			for(int i = 0; i < nodeNum - 1; i++){
+			for(int j = 0; j < nodeNum; j++){
 
 				//calculate probVal for node i
-				curProb = edgeNumMap.get(i) + 1;
-
-				probVals.put(i, curProb);
+				int curProb = edgeNumMap.get(j) + 1;
+				probVals.put(j, curProb);
+				System.out.println(probVals.get(j));
 			}
 
 			//add all probVals values
-			probValsTotal = 0
+			int probValsTotal = 0;
 
-			for(int i = 0; probVals.size(); i++){
-				probValsTotal += probVals.get(i);
+			for(int j = 0; j < probVals.size(); j++){
+				probValsTotal += probVals.get(j);
 			} 
 
 			//random int for range probValsTotal
@@ -73,22 +76,23 @@ public class powerLaw {
 			int curNode = 0;
 
 
-			while(false){
+			while(true){
 
-				curTotal += probVals.get(curNode)
+				curTotal += probVals.get(curNode);
 
-				if(curTotal > randNum){
+				if(curTotal >= randNum){
 					//if the curNode is selected to link to nodeNum, 
 					//put new values in both HashMaps
 
 					//for nodeNum
-					connectionMap.put(nodeNum, new LinkedList<Integer>(curNode));
+					connectionMap.put(nodeNum, new LinkedList<Integer>());
+					connectionMap.get(nodeNum).add(curNode);
 
 					//for curNode
 					connectionMap.get(curNode).add(nodeNum);
 
 					//replace number at curNode, becuase it now links to one more node
-					edgeNumReplace = edgeNumMap.get(curNode) + 1;
+					int edgeNumReplace = edgeNumMap.get(curNode) + 1;
 					edgeNumMap.replace(curNode, edgeNumReplace);
 
 					//new key value pair in edgeNumMap for nodeNum
@@ -100,23 +104,17 @@ public class powerLaw {
 				//iterate node
 				curNode += 1;
 			}
-
+			
 
 			//add edge between nodeNum and node calculated above
 
 			//iterate nodeNum
-
+			nodeNum += 1;
+			System.out.println("nodeNum =" + nodeNum);
 		}
-
-
-	};
-
-	
-
-	public static void main() {
-
-	};
-
-
+	}
+	public static void main(String[] args) {
+		PAmodel(20);
+	}
 
 }
