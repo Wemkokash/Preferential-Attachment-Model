@@ -37,9 +37,10 @@ public class powerLaw {
 
 
 		//variable to keep track of what # node to add to model
-		//(since we already added some, the numStartingNodes)
+		//(since we already added two)
 		int nodeNum = 2;
 
+//I think we need to define probVals here
 		//IMPORTANT FOR LOOP here
 		//This is where we do the big boy work.
 		for(int i = 0; i < numIterations; i++) {
@@ -50,11 +51,15 @@ public class powerLaw {
 
 			//for each old node, calculate probability that the new node connects to it
 				//for loop for calculating probabilities
+
+//I think we need to define curProb here 
 			for(int j = 0; j < nodeNum; j++){
 
-				//calculate probVal for node i
+				//calculate probVal for node j (which is the "current node")
 				int curProb = edgeNumMap.get(j) + 1;
 				probVals.put(j, curProb);
+
+//are we printing here just to test?
 				System.out.println(probVals.get(j));
 			}
 
@@ -70,25 +75,26 @@ public class powerLaw {
 
 			int randNum = rand.nextInt(probValsTotal);
 
-			//start at -1 becasue
+			//start at -1 becasue.
 			int curTotal = -1;
 
+			//this curNode is the node which will be connected to by nodeNum
 			int curNode = 0;
-
 
 			while(true){
 
 				curTotal += probVals.get(curNode);
 
+				//check to see if curNode is the node which nodeNum will attach to
 				if(curTotal >= randNum){
 					//if the curNode is selected to link to nodeNum, 
 					//put new values in both HashMaps
 
-					//for nodeNum
+					//for nodeNum (the node being added)
 					connectionMap.put(nodeNum, new LinkedList<Integer>());
 					connectionMap.get(nodeNum).add(curNode);
 
-					//for curNode
+					//for curNode (the node connected to)
 					connectionMap.get(curNode).add(nodeNum);
 
 					//replace number at curNode, becuase it now links to one more node
@@ -104,12 +110,11 @@ public class powerLaw {
 				//iterate node
 				curNode += 1;
 			}
-			
-
-			//add edge between nodeNum and node calculated above
 
 			//iterate nodeNum
 			nodeNum += 1;
+
+//is this also just for testing?
 			System.out.println("nodeNum =" + nodeNum);
 		}
 	}
