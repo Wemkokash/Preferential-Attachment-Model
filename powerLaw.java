@@ -1,10 +1,50 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.Set;
 
-public class powerLaw {
+import com.opencsv.CSVWriter;
 
-	public static void PAmodel(int numIterations) {
+public class WerLaw {
+	public static void writeDataLineByLine (String filePath, HashMap<Integer, Integer> map) throws IOException {
+		File file = new File(filePath);
+		FileWriter outputFile = new FileWriter(file);
+		CSVWriter writer = new CSVWriter(outputFile);
+		
+		String[] header = {"Node" , "Number Of Connections"};
+		writer.writeNext(header);
+		HashMap<Integer,Integer> freq = new HashMap<Integer, Integer>();
+		for (int i = 0; i < map.size(); i++) {
+			if(!(freq.containsKey(map.get(i)))) {
+				freq.put(map.get(i), 1);
+			} else {
+				int val = freq.get(map.get(i));
+				freq.replace(map.get(i), val+1);
+			}
+		}
+		for(int i = 1; i < map.size()+1; i++) {
+			if(freq.containsKey(i)) {
+				System.out.println(Integer.toString(i) + "," + Integer.toString(freq.get(i)));
+			}
+		}
+		/*
+		for(int i = 0; i < map.size(); i++) {
+			String node = Integer.toString(i);
+			String numConnections = Integer.toString(map.get(i)) + "\n";
+			String[] row = {node, numConnections};
+			writer.writeNext(row);
+		}
+		for(int i = 0; i < map.size(); i++) {
+			String node = Integer.toString(i);
+			String numConnections = Integer.toString(map.get(i));
+			System.out.println(node + "," + numConnections);
+		}*/
+		writer.close();
+	}
+	public static void PAmodel(int numIterations) throws IOException {
 		//these were unused
 		//int totalEdges = 1;
 		//int totalNodes = 2;
@@ -59,8 +99,8 @@ public class powerLaw {
 				int curProb = edgeNumMap.get(j) + 1;
 				probVals.put(j, curProb);
 
-//are we printing here just to test?
-				System.out.println(probVals.get(j));
+//are we printing here just to test? ye
+				//System.out.println(probVals.get(j));
 			}
 
 			//add all probVals values
@@ -113,13 +153,16 @@ public class powerLaw {
 
 			//iterate nodeNum
 			nodeNum += 1;
+			
 
-//is this also just for testing?
-			System.out.println("nodeNum =" + nodeNum);
+//is this also just for testing? ye
+			//System.out.println("nodeNum =" + nodeNum);
 		}
+		writeDataLineByLine("PAModel.csv", edgeNumMap);
+		//System.out.println(edgeNumMap.values());
 	}
-	public static void main(String[] args) {
-		PAmodel(20);
+	public static void main(String[] args) throws IOException{
+		PAmodel(10000);
 	}
 
 }
