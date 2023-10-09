@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
-import java.util.Set;
 
 import com.opencsv.CSVWriter;
 
@@ -99,7 +98,7 @@ public class WerLaw {
 				int curProb = edgeNumMap.get(j) + 1;
 				probVals.put(j, curProb);
 
-//are we printing here just to test? ye
+//are we printing here just to test? yes
 				//System.out.println(probVals.get(j));
 			}
 
@@ -115,7 +114,7 @@ public class WerLaw {
 
 			int randNum = rand.nextInt(probValsTotal);
 
-			//start at -1 becasue.
+			//start at -1 because.
 			int curTotal = -1;
 
 			//this curNode is the node which will be connected to by nodeNum
@@ -155,7 +154,7 @@ public class WerLaw {
 			nodeNum += 1;
 			
 
-//is this also just for testing? ye
+//is this also just for testing? yes
 			//System.out.println("nodeNum =" + nodeNum);
 		}
 		writeDataLineByLine("PAModel.csv", edgeNumMap);
@@ -164,5 +163,4 @@ public class WerLaw {
 	public static void main(String[] args) throws IOException{
 		PAmodel(10000);
 	}
-
 }
